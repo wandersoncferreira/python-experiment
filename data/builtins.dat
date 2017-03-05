@@ -1,9 +1,29 @@
-# dicionary with integers
-idict = {key: value for key, value in zip(range(0, 20), range(10, 30))}
-
-
 # list with integers
 ilist = [el for el in range(20)]
 
 
+# datetime
+dt_base = dt.datetime.today()
+dt_list = [dt_base - dt.timedelta(days=el) for el in range(20)]
 
+
+
+# dictionary with integers
+dict_int = {key: value for key, value in zip(range(0, 20), range(10, 30))}
+
+
+
+# dictionary with dates in keys
+dict_dt = {key: value for key, value in zip(dt_list, ilist)}
+
+
+
+# regular class
+class NormalClass:
+
+    def foo(self):
+        NotImplemented
+
+
+    def bar(self):
+        raise NotImplementedError
