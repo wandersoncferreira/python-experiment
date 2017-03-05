@@ -12,7 +12,7 @@ df_dates.set_index("col_index", inplace=True)
 
 
 # pandas datetime dataframe
-df_pandas_dates = df_datetime.copy()
+df_pandas_dates = df_dates.copy()
 df_pandas_dates.index = pd.to_datetime(df_pandas_dates.index)
                          
 
