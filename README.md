@@ -12,6 +12,16 @@
 # Installation
 For now, there is only one way to install this package. 
 
+First clone the repo in the right folder:
+
+``` shell
+cd ~/.emacs.d/site-packages
+git submodule add https://github.com/wandersoncferreira/python-experiment-mode
+```
+
+Then add these lines to your **init.el** file.
+
+
 ``` emacs-lisp
 (add-to-list 'load-path "~/.emacs.d/site-packages/python-experiment-mode")
 (require 'python-experiment-mode)
