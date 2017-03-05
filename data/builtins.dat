@@ -4,7 +4,7 @@ ilist = [el for el in range(20)]
 
 # datetime
 dt_base = dt.datetime.today()
-dt_list = [dt_base - dt.timedelta(days=el) for el in range(20)]
+dt_list = [(dt_base - dt.timedelta(days=el)).date() for el in range(20)]
 
 
 
@@ -14,7 +14,7 @@ dict_int = {key: value for key, value in zip(range(0, 20), range(10, 30))}
 
 
 # dictionary with dates in keys
-dict_dt = {key: value for key, value in zip(dt_list, ilist)}
+dict_dates = {key: value for key, value in zip(dt_list, ilist)}
 
 
 
