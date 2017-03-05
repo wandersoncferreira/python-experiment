@@ -28,7 +28,7 @@
 (defun insert-datatypes ()
   "Function to insert the desired datatypes in folder /data/."
   (let
-      ((datatype-files (file-expand-wildcards "data/*.dat")))
+      ((datatype-files (file-expand-wildcards (concat user-emacs-directory "site-packages/python-experiment-mode/data/*.dat"))))
     (dolist (file-name-full datatype-files)
       (let*
           ((file-name (nth 1 (split-string file-name-full "/")))
@@ -57,7 +57,6 @@
 ;; desired format (numpy . nil) for non-aliased imports
 (defvar list-of-modules '((os . nil) (sys . nil))
   "Alist of modules to be imported during the call of the program.")
-
 
 (defun python-insert-imports ()
   "Function to insert the desired python imports."
@@ -115,7 +114,7 @@
   (interactive)
   (switch-to-buffer-other-frame py-buffer-name)
   (write-file py-setup-file)
-  (message (format "Your Python Experiment buffer was written to %s" (concat default-directory py-setup-file))))
+  (message (format "Your Python Experiment buffer was written to %s" (concat user-emacs-directory py-setup-file))))
 
 
 ;; Python Experiment Mode have direct inheritance of a Python Major mode.
