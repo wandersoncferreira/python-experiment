@@ -45,11 +45,11 @@ The Python Experiment Buffer is not attached to any file and you can easily edit
 
 
 
-<kbd>F11</kbd> If you edit the Python Experiment Buffer to include any additional datatype, you can press F11 to reload the Inferior Python Process with the new additions.
+<kbd>F11</kbd> If you edit the Python Experiment Buffer to include any additional datatype, you can press **F11** to reload the Inferior Python Process with the new additions.
 
 
 
-*<kbd>F12</kbd> After a whole day of work you might have added several custom additions to your specific situation. Press *F12* to save the Python Experiment Buffer to a custom file that will be loaded in the next time.
+<kbd>F12</kbd> After a whole day of work you might have added several custom additions to your specific situation. Press **F12** to save the Python Experiment Buffer to a custom file that will be loaded in the next time.
 
 
 
@@ -57,7 +57,8 @@ The Python Experiment Buffer is not attached to any file and you can easily edit
 
 # Contributions
 
-I would like to love to extend this package. Open a Issue and let me know of your ideas!
+I would love to extend this package. Open a Issue and let me know of your ideas!
+Not need to any programming skiils: Problems still to be addressed: Naming conventions!!
 
 
 
