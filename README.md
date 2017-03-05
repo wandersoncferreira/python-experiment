@@ -62,6 +62,26 @@ The Python Experiment Buffer is not attached to any file and you can easily edit
 <kbd>F12</kbd> After a whole day of work you might have added several custom additions to your specific situation. Press **F12** to save the Python Experiment Buffer to a custom file that will be loaded in the next time.
 
 
+# Settings
+
+There are a few builtin modules loaded by default: os and sys.
+However you can customize this variable using the **list-of-builtins** variable as follows:
+
+
+```eshell
+(setq list-of-builtins '((functools . nil) (os . nil) (collections . cl)))
+```
+
+This variable holds an alist which first member is the name of your module and the second member is its alias.
+
+The collection module would be imported as:
+
+``` python
+import collections as cl
+```
+
+
+OBS: Every default data or module is only loaded if you have the module installed in your Python Environment. The package already checks it.
 
 
 
@@ -71,6 +91,8 @@ I would love to extend this package. Open a Issue and let me know of your ideas!
 Not need to any programming skiils: Problems still to be addressed: Naming conventions!!
 
 
+
+If you want to contribute adding more standard datatypes at the "data" folder, submit a Pull Request right away. o/
 
 
 

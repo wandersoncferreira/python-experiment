@@ -56,12 +56,12 @@
 ;; name of the python packages should be placed as alist objects
 ;; desired format (numpy . np) for aliased imports
 ;; desired format (numpy . nil) for non-aliased imports
-(defvar list-of-modules '((os . nil) (sys . nil))
+(defvar list-of-builtins '((os . nil) (sys . nil))
   "Alist of modules to be imported during the call of the program.")
 
 (defun python-insert-imports ()
   "Function to insert the desired python imports."
-  (dolist (module-pair list-of-modules)
+  (dolist (module-pair list-of-builtins)
     (let ((module-name (car module-pair))
           (module-nickname (cdr module-pair)))
       (if (check-import (car module-pair))
