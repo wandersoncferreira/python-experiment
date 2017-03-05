@@ -3,6 +3,9 @@
 ;;; This Python Project is intended to help you easily test several functionalities of the Python Progrmaming Language.
 ;;; Code:
 
+(require 'python)
+
+
 (defvar py-buffer-name "Python Experiment"
   "The name of the buffer that will be opened.")
 
@@ -101,21 +104,22 @@
     (delete-frame)))
 
 (defun python-experiment-reload ()
-  "If you want to type new things at Python Experiment buffer.")
+  "If you want to type new things at Python Experiment buffer."
+  (interactive)
+  (switch-to-buffer-other-frame py-buffer-name)
+  (python-shell-send-buffer))
+
 
 (defun python-experiment-buffer-to-file ()
-  "If you desired to save your Python Experiment buffer to a file to be loaded the next time.")
+  "If you desired to save your Python Experiment buffer to a file to be loaded the next time."
+  (interactive)
+  (switch-to-buffer-other-frame py-buffer-name)
+  (write-file py-setup-file)
+  (message (format "Your Python Experiment buffer was written to %s" (concat default-directory py-setup-file))))
 
-
-(defun check-setup-file ()
-  "Check if the user have a custom setup file named .python-experiment.")
-
-(defun load-setup-file-instead ()
-  "If user have a custom setup file, load it instead of the default behavior.")
 
 ;; Python Experiment Mode have direct inheritance of a Python Major mode.
-(define-derived-mode python-experiment-mode python-mode "Python Experiment"
-  (define-key python-experiment-mode-map (kbd "C-c C-t") 'create-new-pyexperiment-frame))
+(define-derived-mode python-experiment-mode python-mode "Python Experiment")
 
 
 (defun python-experiment ()
@@ -125,19 +129,21 @@
       (progn
         (switch-to-buffer-other-frame py-buffer-name)
         (python-open-inferior-shell))
-    (if (check-setup-file)
-        (load-setup-file-instead)
-      (create-new-pyexperiment-frame)
+
+    (create-new-pyexperiment-frame)
+
+    (if (file-exists-p py-setup-file)
+        (insert-file-contents py-setup-file)
       (python-insert-imports)
-      (insert-datatypes)
-      (python-open-inferior-shell))))
+      (insert-datatypes))
+    (python-open-inferior-shell)))
 
 
 ;; global suggested bindings
-(global-set-key (kbd "<f5>") 'python-experiment)
-(global-set-key (kbd "<f6>") 'python-experiment-lived-too-long)
-(global-set-key (kbd "<f7>") 'python-experiment-reload)
-(global-set-key (kbd "<f8>") 'python-experiment-buffer-to-file)
+(global-set-key (kbd "<f9>") 'python-experiment)
+(global-set-key (kbd "<f10>") 'python-experiment-lived-too-long)
+(global-set-key (kbd "<f11>") 'python-experiment-reload)
+(global-set-key (kbd "<f12>") 'python-experiment-buffer-to-file)
 
 (provide 'python-experiment-mode)
 ;;; python-experiment-mode.el ends here
