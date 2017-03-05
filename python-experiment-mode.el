@@ -31,7 +31,7 @@
       ((datatype-files (file-expand-wildcards (concat user-emacs-directory "site-packages/python-experiment-mode/data/*.dat"))))
     (dolist (file-name-full datatype-files)
       (let*
-          ((file-name (nth 1 (split-string file-name-full "/")))
+          ((file-name (car (last (split-string file-name-full "/"))))
            (module-nickname-p (car (split-string file-name ".dat")))
            (list-module-nickname (split-string module-nickname-p "_"))
            (module-name (car list-module-nickname))
@@ -51,6 +51,7 @@
                             (newline))
                         (insert (format "import %s" module-name))
                         (newline)))))))))))
+
 
 ;; name of the python packages should be placed as alist objects
 ;; desired format (numpy . np) for aliased imports

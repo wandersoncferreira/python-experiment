@@ -13,7 +13,7 @@
 For now, there is only one way to install this package. 
 
 ``` emacs-lisp
-(add-to-list 'load-path "~/.emacs.d/python-experiment-mode")
+(add-to-list 'load-path "~/.emacs.d/site-packages/python-experiment-mode")
 (require 'python-experiment-mode)
 ```
 
@@ -32,6 +32,7 @@ There are 4 recommended bindings in this package:
 
 <kbd>F9</kbd> will open a frame like this one below:
 
+![Example of the Frame that will be opened.](images/example-frame.png)
 
 
 The Python Experiment Buffer is not attached to any file and you can easily edit it.
