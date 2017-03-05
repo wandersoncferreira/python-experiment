@@ -24,10 +24,13 @@ If you desire to see this package in MELPA let me know in Issues.
 # Usage
 
 There are 4 recommended bindings in this package:
+
+``` emacs-lisp
 (global-set-key (kbd "<f9>") 'python-experiment)
 (global-set-key (kbd "<f10>") 'python-experiment-lived-too-long)
 (global-set-key (kbd "<f11>") 'python-experiment-reload)
 (global-set-key (kbd "<f12>") 'python-experiment-buffer-to-file)
+```
 
 
 <kbd>F9</kbd> will open a frame like this one below:
