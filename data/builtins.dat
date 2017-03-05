@@ -1,0 +1,9 @@
+# dicionary with integers
+idict = {key: value for key, value in zip(range(0, 20), range(10, 30))}
+
+
+# list with integers
+ilist = [el for el in range(20)]
+
+
+

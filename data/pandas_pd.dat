@@ -1,0 +1,4 @@
+# integer dataframe
+idf = pd.DataFrame({"col1": [el for el in range(10, 40)],
+                    "col2": [el for el in range(55, 85)],
+                    "col3": [el for el in range(30)]})

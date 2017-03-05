@@ -1,0 +1,14 @@
+# matrix with zeros
+mzeros = np.zeros((20, 20))
+
+
+# column matrix with random values
+mc_random = np.random.random((1, 20))
+
+
+# line matrix with random values
+ml_random = np.random.random((20, 1))
+
+
+# full matrix with random values
+m_random = np.random.random((20, 20))

@@ -6,6 +6,9 @@
 (defvar py-buffer-name "Python Experiment"
   "The name of the buffer that will be opened.")
 
+(defvar py-setup-file ".python-experiment"
+  "The name of the custom config file.")
+
 (defun create-new-pyexperiment-frame ()
   "Create a new frame in Python Experiment mode."
   (interactive)
@@ -18,26 +21,38 @@
   (python-shell-send-buffer)
   (python-shell-switch-to-shell))
 
-(defun python-set-default-environment ()
-  "Function to set the default python environment."
-  (message "ENV"))
 
-
-(defun python-insert-mutable-data ()
-  "Function to insert mutable data types in the buffer."
-  (message "MUT"))
-
-(defun python-insert-immutable-data ()
-  "Function to insert immutable data types in the buffer."
-  (message "IMMUT"))
-
-
+(defun insert-datatypes ()
+  "Function to insert the desired datatypes in folder /data/."
+  (let
+      ((datatype-files (file-expand-wildcards "data/*.dat")))
+    (dolist (file-name-full datatype-files)
+      (let*
+          ((file-name (nth 1 (split-string file-name-full "/")))
+           (module-nickname-p (car (split-string file-name ".dat")))
+           (list-module-nickname (split-string module-nickname-p "_"))
+           (module-name (car list-module-nickname))
+           (module-nickname (car (cdr list-module-nickname))))
+        (if (or (check-import module-name) (string-equal module-name "builtins"))
+            (progn
+              (open-line 2)
+              (insert-file-contents file-name-full)
+              (newline)
+              (if (not (string-equal module-name "builtins"))
+                  (progn
+                    (save-excursion
+                      (goto-char (point-min))
+                      (if module-nickname
+                          (progn
+                            (insert (format "import %s as %s" module-name module-nickname))
+                            (newline))
+                        (insert (format "import %s" module-name))
+                        (newline)))))))))))
 
 ;; name of the python packages should be placed as alist objects
 ;; desired format (numpy . np) for aliased imports
 ;; desired format (numpy . nil) for non-aliased imports
-
-(defvar list-of-modules '((os . nil) (sys . nil) (numpy . np) (pandas . pd))
+(defvar list-of-modules '((os . nil) (sys . nil))
   "Alist of modules to be imported during the call of the program.")
 
 
@@ -63,12 +78,40 @@
         nil
       t)))
 
+
 (defun check-experiment-python-running ()
   "Function to check if there is already an instance of the Python Experiment opened."
   (if (get-buffer py-buffer-name)
       (progn
         t)
     nil))
+
+
+;; better to bind it later to something better to you.
+(defun python-experiment-lived-too-long ()
+  "Meeseeks!"
+  (interactive)
+  (when (get-buffer-process "*Python*")
+    (set-process-query-on-exit-flag (get-buffer-process "*Python*") nil)
+    (kill-process (get-buffer-process "*Python*"))
+    (kill-buffer "*Python*"))
+  (when (get-buffer py-buffer-name)
+    (switch-to-buffer-other-frame py-buffer-name)
+    (kill-buffer-and-window)
+    (delete-frame)))
+
+(defun python-experiment-reload ()
+  "If you want to type new things at Python Experiment buffer.")
+
+(defun python-experiment-buffer-to-file ()
+  "If you desired to save your Python Experiment buffer to a file to be loaded the next time.")
+
+
+(defun check-setup-file ()
+  "Check if the user have a custom setup file named .python-experiment.")
+
+(defun load-setup-file-instead ()
+  "If user have a custom setup file, load it instead of the default behavior.")
 
 ;; Python Experiment Mode have direct inheritance of a Python Major mode.
 (define-derived-mode python-experiment-mode python-mode "Python Experiment"
@@ -82,14 +125,19 @@
       (progn
         (switch-to-buffer-other-frame py-buffer-name)
         (python-open-inferior-shell))
+    (if (check-setup-file)
+        (load-setup-file-instead)
+      (create-new-pyexperiment-frame)
+      (python-insert-imports)
+      (insert-datatypes)
+      (python-open-inferior-shell))))
 
-    (create-new-pyexperiment-frame)
-    (python-insert-imports)
-    (python-insert-mutable-data)
-    (python-insert-immutable-data)
-    (python-open-inferior-shell)))
 
-
+;; global suggested bindings
+(global-set-key (kbd "<f5>") 'python-experiment)
+(global-set-key (kbd "<f6>") 'python-experiment-lived-too-long)
+(global-set-key (kbd "<f7>") 'python-experiment-reload)
+(global-set-key (kbd "<f8>") 'python-experiment-buffer-to-file)
 
 (provide 'python-experiment-mode)
 ;;; python-experiment-mode.el ends here
