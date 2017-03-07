@@ -1,4 +1,4 @@
-# python-experiment-mode
+# python-experiment
 
 **Package to make Experiments in Python way lot easier.**
 
@@ -8,6 +8,8 @@
 *Well, these issues are addressed by this package.*
 
 
+**OBS>>> This package was renamed from Python Experiment Mode to Python Experiment. I am sorry, but it makes more sense now.
+
 
 # Installation
 For now, there is only one way to install this package. 
@@ -16,15 +18,15 @@ First clone the repo in the right folder:
 
 ``` shell
 cd ~/.emacs.d/site-packages
-git submodule add https://github.com/wandersoncferreira/python-experiment-mode
+git submodule add https://github.com/wandersoncferreira/python-experiment
 ```
 
 Then add these lines to your **init.el** file.
 
 
 ``` emacs-lisp
-(add-to-list 'load-path "~/.emacs.d/site-packages/python-experiment-mode")
-(require 'python-experiment-mode)
+(add-to-list 'load-path "~/.emacs.d/site-packages/python-experiment")
+(require 'python-experiment)
 ```
 
 If you desire to see this package in MELPA let me know in Issues.
@@ -69,7 +71,7 @@ However you can customize this variable using the **list-of-builtins** variable 
 
 
 ```eshell
-(setq list-of-builtins '((functools . nil) (os . nil) (collections . cl)))
+(setq python-experiment-builtins '((functools . nil) (os . nil) (collections . cl)))
 ```
 
 This variable holds an alist which first member is the name of your module and the second member is its alias.
@@ -83,6 +85,14 @@ import collections as cl
 
 OBS: Every default data or module is only loaded if you have the module installed in your Python Environment. The package already checks it.
 
+
+# Faker library
+
+I just started using the [Faker](https://github.com/joke2k/faker) library. It will suit very nicely what is the purpose of this package. Additional custom default provides might be:
+
+	+ Fake CSV files.
+	
+However, faker already have a lot of nice builtins options.
 
 
 # Contributions
