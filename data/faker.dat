@@ -1,0 +1,10 @@
+# fake factory of data
+fake = faker.Faker()
+
+
+# examples:
+# fake.name()
+# fake.address()
+# fake.text()
+
+
