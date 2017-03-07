@@ -92,7 +92,15 @@ I just started using the [Faker](https://github.com/joke2k/faker) library. It wi
 
 	+ Fake CSV files.
 	
-However, faker already have a lot of nice builtins options.
+However, faker already have a lot of nice builtins options. Example:
+
+![Example of the Faker library in action.](images/faker_example.png)
+
+You need to install the library to be able to load automatically.
+
+``` shell
+pip install Faker
+```
 
 
 # Contributions
