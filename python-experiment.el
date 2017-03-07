@@ -48,7 +48,7 @@
 (defun python-experiment-insert-datatypes ()
   "Function to insert the desired datatypes in folder /data/."
   (let
-      ((datatype-files (file-expand-wildcards (concat user-emacs-directory "site-packages/python-experiment-mode/data/*.dat"))))
+      ((datatype-files (file-expand-wildcards (concat user-emacs-directory "site-packages/python-experiment/data/*.dat"))))
     (dolist (file-name-full datatype-files)
       (let*
 	  ((file-name (car (last (split-string file-name-full "/"))))
