@@ -1,4 +1,4 @@
-;; python-experiment.el --- Python Experimental Mode
+;;; python-experiment.el --- Python Experimental Mode
 ;; Copyright (C)
 ;; Author: Wanderson Ferreira <https://github.com/wandersoncferreira>
 ;; Package: python-experiment
