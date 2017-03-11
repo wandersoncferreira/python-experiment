@@ -1,8 +1,9 @@
-;; python-experiment.el --- Python Experimental Mode
+;;; python-experiment.el --- Python Experiment setup.
+
 ;; Copyright (C)
 ;; Author: Wanderson Ferreira <https://github.com/wandersoncferreira>
 ;; Package: python-experiment
-;; Version: 0.2
+;; Version: 0.1
 
 ;; This file is not part of GNU Emacs.
 
