@@ -1,8 +1,9 @@
-;;; python-experiment.el --- Python Experimental Mode
+;;; python-experiment.el --- Python Experiment setup.
+
 ;; Copyright (C)
 ;; Author: Wanderson Ferreira <https://github.com/wandersoncferreira>
 ;; Package: python-experiment
-;; Version: 0.2
+;; Version: 0.1
 
 ;; This file is not part of GNU Emacs.
 
@@ -26,11 +27,8 @@
 (require 'python)
 
 
-(defvar python-experiment-name "Python Experiment"
+(defvar python-experiment-name ".python-experiment"
   "The name of the buffer that will be opened.")
-
-(defvar python-experiment-file ".python-experiment"
-  "The name of the custom config file.")
 
 (defun python-experiment-new-frame ()
   "Create a new frame in Python Experiment."
@@ -120,7 +118,7 @@
     (kill-buffer "*Python*"))
   (when (get-buffer python-experiment-name)
     (if (string-equal (buffer-name) python-experiment-name)
-	(kill-buffer-and-window)
+        (kill-buffer-and-window)
       (switch-to-buffer-other-frame python-experiment-name)
       (kill-buffer-and-window))
     (delete-frame)))
@@ -128,16 +126,22 @@
 (defun python-experiment-reload ()
   "If you want to type new things at Python Experiment buffer."
   (interactive)
-  (switch-to-buffer-other-frame python-experiment-name)
-  (python-shell-send-buffer))
+  (with-current-buffer python-experiment-name
+    (python-shell-send-buffer)))
 
 
 (defun python-experiment-buffer-to-file ()
   "If you desired to save your Python Experiment buffer to a file to be loaded the next time."
   (interactive)
-  (switch-to-buffer-other-frame python-experiment-name)
-  (write-file (concat user-emacs-directory python-experiment-file))
-  (message (format "Your Python Experiment buffer was written to %s" python-experiment-file)))
+  (with-current-buffer python-experiment-name
+    (let ((pfile (concat user-emacs-directory python-experiment-name)))
+      (if (file-exists-p pfile)
+          (progn
+            (if (vc-backend pfile)
+                (vc-delete-file pfile)
+              (delete-file pfile))))
+      (write-file pfile)))
+  (message (format "Your Python Experiment buffer was written to %s" python-experiment-name)))
 
 
 (defun python-experiment ()
@@ -145,16 +149,16 @@
   (interactive)
   (if (python-experiment-is-running)
       (progn
-        (switch-to-buffer-other-frame python-experiment-name)
+        (if (not (string-equal (buffer-name) python-experiment-name))
+            (switch-to-buffer-other-frame python-experiment-name))
         (python-experiment-inferior-shell))
-
     (python-experiment-new-frame)
-
-    (if (file-exists-p python-experiment-file)
-        (insert-file-contents python-experiment-file)
+    (if (file-exists-p (concat user-emacs-directory python-experiment-name))
+        (insert-file-contents (concat user-emacs-directory python-experiment-name))
       (python-experiment-insert-imports)
       (python-experiment-insert-datatypes))
-    (python-experiment-inferior-shell)))
+    (python-experiment-inferior-shell))
+  (message "Python Experiment is now running!"))
 
 
 ;; global suggested bindings
