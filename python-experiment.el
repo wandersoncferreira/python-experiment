@@ -143,6 +143,16 @@
       (write-file pfile)))
   (message (format "Your Python Experiment buffer was written to %s" python-experiment-name)))
 
+(defun python-experiment-delete-custom-file ()
+  "Function to remove the custom file. This will make the package load the default experiment in the next run."
+  (interactive)
+  (let ((pfile (concat user-emacs-directory python-experiment-name)))
+    (if (file-exists-p pfile)
+        (progn
+          (delete-file pfile)
+          (message "Custom file deleted with success!"))
+      (message "I can't remove a custom file that doesn't exist! Ni!"))))
+
 
 (defun python-experiment ()
   "Main function to start the Python Experiment Mode."
