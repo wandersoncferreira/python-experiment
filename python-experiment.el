@@ -136,7 +136,13 @@
   "If you desired to save your Python Experiment buffer to a file to be loaded the next time."
   (interactive)
   (switch-to-buffer-other-frame python-experiment-name)
-  (write-file (concat user-emacs-directory python-experiment-file))
+  (let ((pfile (concat user-emacs-directory python-experiment-file)))
+    (if (file-exists-p pfile)
+        (progn
+          (if (vc-backend pfile)
+              (vc-delete-file pfile)
+            (delete-file pfile))))
+    (write-file pfile))
   (message (format "Your Python Experiment buffer was written to %s" python-experiment-file)))
 
 
@@ -154,7 +160,8 @@
         (insert-file-contents python-experiment-file)
       (python-experiment-insert-imports)
       (python-experiment-insert-datatypes))
-    (python-experiment-inferior-shell)))
+    (python-experiment-inferior-shell))
+  (message "Python Experiment is now running!"))
 
 
 ;; global suggested bindings
