@@ -4,6 +4,7 @@
 ;; Author: Wanderson Ferreira <https://github.com/wandersoncferreira>
 ;; Package: python-experiment
 ;; Version: 0.1
+;; Package-Requires: ((emacs "24.3"))
 
 ;; This file is not part of GNU Emacs.
 
