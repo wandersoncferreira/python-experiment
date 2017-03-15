@@ -155,6 +155,7 @@
       (message "I can't remove a custom file that doesn't exist! Ni!"))))
 
 
+;;;###autoload
 (defun python-experiment ()
   "Main function to start the Python Experiment Mode."
   (interactive)
@@ -173,10 +174,25 @@
 
 
 ;; global suggested bindings
-(global-set-key (kbd "<f9>") 'python-experiment)
-(global-set-key (kbd "<f10>") 'python-experiment-lived-too-long)
-(global-set-key (kbd "<f11>") 'python-experiment-reload)
-(global-set-key (kbd "<f12>") 'python-experiment-buffer-to-file)
+(defun python-experiment-pkeys ()
+  "Function to add local keys to a python major mode."
+
+  ;; python mode
+  (define-key python-mode-map (kbd "<f9>") 'python-experiment)
+  (define-key python-mode-map (kbd "<f10>") 'python-experiment-lived-too-long)
+  (define-key python-mode-map (kbd "<f11>") 'python-experiment-reload)
+  (define-key python-mode-map (kbd "<f12>") 'python-experiment-buffer-to-file))
+
+(add-hook 'python-mode-hook 'python-experiment-pkeys)
+
+(defun python-experiment-ipkeys ()
+  "Function to add local keys to an inferior python mode."
+  ;; inferior python mode
+  (define-key inferior-python-mode-map (kbd "<f9>") 'python-experiment)
+  (define-key inferior-python-mode-map (kbd "<f10>") 'python-experiment-lived-too-long)
+  (define-key inferior-python-mode-map (kbd "<f11>") 'python-experiment-reload)
+  (define-key inferior-python-mode-map (kbd "<f12>") 'python-experiment-buffer-to-file))
+(add-hook 'inferior-python-mode-hook 'python-experiment-ipkeys)
 
 (provide 'python-experiment)
 ;;; python-experiment.el ends here
