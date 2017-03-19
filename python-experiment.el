@@ -96,17 +96,12 @@
   "Function to check if a MODULE-NAME exists in the users's system."
   (let
       ((output-command (shell-command-to-string (format "python -c 'import %s'" module-name))))
-    (if (string-match "^Traceback*" output-command)
-        nil
-      t)))
+    (not (string-match "^Traceback*" output-command))))
 
 
 (defun python-experiment-is-running ()
   "Function to check if there is already an instance of the Python Experiment opened."
-  (if (get-buffer python-experiment-name)
-      (progn
-        t)
-    nil))
+  (get-buffer python-experiment-name))
 
 
 ;; better to bind it later to something better to you.
