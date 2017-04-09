@@ -35,9 +35,11 @@
 
 (require 'python)
 
-
 (defvar python-experiment-name ".python-experiment"
   "The name of the buffer that will be opened.")
+
+(defvar python-experiment-file (locate-user-emacs-file ".python-experiment")
+  "The path of the python-experiment file with your custom editions.")
 
 (defun python-experiment-new-frame ()
   "Create a new frame in Python Experiment."
@@ -58,26 +60,26 @@
       ((datatype-files (file-expand-wildcards (concat user-emacs-directory "site-packages/python-experiment/data/*.dat"))))
     (dolist (file-name-full datatype-files)
       (let*
-	  ((file-name (car (last (split-string file-name-full "/"))))
-	   (module-nickname-p (car (split-string file-name ".dat")))
-	   (list-module-nickname (split-string module-nickname-p "_"))
-	   (module-name (car list-module-nickname))
-	   (module-nickname (car (cdr list-module-nickname))))
-	(if (or (python-experiment-check-import module-name) (string-equal module-name "builtins"))
-	    (progn
-	      (open-line 2)
-	      (insert-file-contents file-name-full)
-	      (newline)
-	      (if (not (string-equal module-name "builtins"))
-		  (progn
-		    (save-excursion
-		      (goto-char (point-min))
-		      (if module-nickname
-			  (progn
-			    (insert (format "import %s as %s" module-name module-nickname))
-			    (newline))
-			(insert (format "import %s" module-name))
-			(newline)))))))))))
+          ((file-name (car (last (split-string file-name-full "/"))))
+           (module-nickname-p (car (split-string file-name ".dat")))
+           (list-module-nickname (split-string module-nickname-p "_"))
+           (module-name (car list-module-nickname))
+           (module-nickname (car (cdr list-module-nickname))))
+        (if (or (python-experiment-check-import module-name) (string-equal module-name "builtins"))
+            (progn
+              (open-line 2)
+              (insert-file-contents file-name-full)
+              (newline)
+              (if (not (string-equal module-name "builtins"))
+                  (progn
+                    (save-excursion
+                      (goto-char (point-min))
+                      (if module-nickname
+                          (progn
+                            (insert (format "import %s as %s" module-name module-nickname))
+                            (newline))
+                        (insert (format "import %s" module-name))
+                        (newline)))))))))))
 
 
 ;; name of the python packages should be placed as alist objects
@@ -138,24 +140,20 @@
   "If you desired to save your Python Experiment buffer to a file to be loaded the next time."
   (interactive)
   (with-current-buffer python-experiment-name
-    (let ((pfile (concat user-emacs-directory python-experiment-name)))
-      (if (file-exists-p pfile)
-          (progn
-            (if (vc-backend pfile)
-                (vc-delete-file pfile)
-              (delete-file pfile))))
-      (write-file pfile)))
+    (if (file-exists-p python-experiment-file)
+        (delete-file python-experiment-file))
+    (write-file python-experiment-file))
   (message (format "Your Python Experiment buffer was written to %s" python-experiment-name)))
 
 (defun python-experiment-delete-custom-file ()
-  "Function to remove the custom file. This will make the package load the default experiment in the next run."
+  "Function to remove the custom file.
+   This will make the package load the default experiment in the next run."
   (interactive)
-  (let ((pfile (concat user-emacs-directory python-experiment-name)))
-    (if (file-exists-p pfile)
-        (progn
-          (delete-file pfile)
-          (message "Custom file deleted with success!"))
-      (message "I can't remove a custom file that doesn't exist! Ni!"))))
+  (if (file-exists-p python-experiment-file)
+      (progn
+        (delete-file python-experiment-file)
+        (message "Custom file deleted with success!"))
+    (message "I can't remove a custom file that doesn't exist! Ni!")))
 
 
 ;;;###autoload
@@ -168,34 +166,25 @@
             (switch-to-buffer-other-frame python-experiment-name))
         (python-experiment-inferior-shell))
     (python-experiment-new-frame)
-    (if (file-exists-p (concat user-emacs-directory python-experiment-name))
-        (insert-file-contents (concat user-emacs-directory python-experiment-name))
+    (if (file-exists-p python-experiment-file)
+        (insert-file-contents python-experiment-file)
       (python-experiment-insert-imports)
       (python-experiment-insert-datatypes))
     (python-experiment-inferior-shell))
   (message "Python Experiment is now running!"))
 
 
-;; global suggested bindings
-(defun python-experiment-pkeys ()
-  "Function to add local keys to a python major mode."
+;; derive python-experiment
+(define-minor-mode python-experiment-mode
+  "Toggle Python Experiment mode"
+  :init-value t
+  :lighter " PyExp"
+  :keymap
+  '(([f9] . python-experiment)
+    ([f10] . python-experiment-lived-too-long)
+    ([f11] . python-experiment-reload)
+    ([f12] . python-experiment-buffer-to-file))
+  :group 'python-experiment-mode)
 
-  ;; python mode
-  (define-key python-mode-map (kbd "<f9>") 'python-experiment)
-  (define-key python-mode-map (kbd "<f10>") 'python-experiment-lived-too-long)
-  (define-key python-mode-map (kbd "<f11>") 'python-experiment-reload)
-  (define-key python-mode-map (kbd "<f12>") 'python-experiment-buffer-to-file))
-
-(add-hook 'python-mode-hook 'python-experiment-pkeys)
-
-(defun python-experiment-ipkeys ()
-  "Function to add local keys to an inferior python mode."
-  ;; inferior python mode
-  (define-key inferior-python-mode-map (kbd "<f9>") 'python-experiment)
-  (define-key inferior-python-mode-map (kbd "<f10>") 'python-experiment-lived-too-long)
-  (define-key inferior-python-mode-map (kbd "<f11>") 'python-experiment-reload)
-  (define-key inferior-python-mode-map (kbd "<f12>") 'python-experiment-buffer-to-file))
-(add-hook 'inferior-python-mode-hook 'python-experiment-ipkeys)
-
-(provide 'python-experiment)
+(provide 'python-experiment-mode)
 ;;; python-experiment.el ends here
