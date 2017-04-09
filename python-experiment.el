@@ -22,7 +22,15 @@
 ;; along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 ;;; Commentary:
-;;; This Python Project is intended to help you easily test several functionalities of the Python Progrmaming Language.
+
+;; Python Experiment creates a new frame with Python objects (dict, list, dataframe)
+;; filled with dummy values to be used in any ways.
+
+;; Example:
+;; Imagine you want to verify if the method pop works for dictionary and for lists.
+;; You would need to create a dictionary and then create a list filled with dummy values
+;; This package have already created those!! Just use it.
+
 ;;; Code:
 
 (require 'python)
