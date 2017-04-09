@@ -1,4 +1,4 @@
-;;; python-experiment.el --- Python Experiment setup.
+;;; python-experiment.el --- Python Experiment Mode provides several dummy Python objects prepared to be used in your REPL.
 
 ;; Copyright (C)
 ;; Author: Wanderson Ferreira <https://github.com/wandersoncferreira>
